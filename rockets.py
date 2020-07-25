@@ -21,7 +21,8 @@ class Propulsion:
 merlin_1d = Propulsion("Merlin 1d", "Liquid", 981, 50, 320,"kerosene", "lox",1000000)
 
 
-print(merlin_1d.thrust_to_mass())
+print(f"Merlin's thrust to mass ratio is {merlin_1d.thrust_to_mass()}")
+print(f"Merlin's thrust is {merlin_1d.thrust}")
 
 
 class Body:
@@ -41,6 +42,7 @@ class VehicleStage:
     # ToDo:  add stage number with zero being the top stage.  add methods to build entire vehicle up to zero.
     def __init__(self, name: str, body_type, propulsion_type, propulsion_count=0, fuel_cap=0, oxydizer_cap=0):
         self._name = name
+        self.body_type = body_type
         self.propulsion_type = propulsion_type
         self.propulsion_count = propulsion_count
         self.fuel_cap = fuel_cap                # to do: units
@@ -54,19 +56,24 @@ class VehicleStage:
         # ToDo:  teach this method to calculate dry mass of the stage
     
     def mass_dry(self):
-        return self.body_type.mass + self.mass_propulsion
+        return self.body_type.mass + self.mass_propulsion()
 
     def mass_wet(self, stage_mass_dry, fuel_cap, oxydizer_cap):
         # ToDo: teach this method to add the fuel and oxy mass to dry mass
         pass
 
 
-falcon_9 = VehicleStage("Falcon 9", aluminum, merlin_1d, 9,300000,700000)
-print(falcon_9.thrust())
-print(falcon_9.mass_propulsion())
-help(falcon_9)
-print(falcon_9.mass_dry())
+falcon_9 = VehicleStage("Falcon 9", aluminum, merlin_1d, 9, float(300000), float(700000))
+print(f"F9's thrust is {falcon_9.thrust()}")
+print(f"F9's body mass is {aluminum.mass}")
+print(f"F9's engine mass is {falcon_9.mass_propulsion()}")
+print(f"F9's body type has a mass of {falcon_9.body_type.mass}")
+# print(f"F9's p")
+print(f"F9's dry mass is {falcon_9.mass_dry()}")
 
+from pprint import pprint
+pprint(vars(falcon_9))
+falcon_9.dict
 
 # Inheritance
 class Reusable(VehicleStage):
